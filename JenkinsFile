@@ -1,0 +1,34 @@
+pipeline{
+    agent {label  'local'}
+    environment {
+    EXAMPLE_KEY = credentials('agenbot') // Secret value is 'sec%ret'
+    }
+    stages{
+        stage('Build'){
+            steps{
+                echo 'Download last update'
+                script{
+                    if(!fileExists('dj-rick/Dockerfile')){
+                    sh 'git clone https://github.com/Rick-Sanchez-C/dj-rick.git'
+                    sleep 10
+                    }
+
+                }
+                echo 'Delete old container'
+                sh 'docker stop dj-rick || true && docker rm dj-rick || true'
+
+                sh 'cd dj-rick'
+                sh 'cd dj-rick && cat app.json'
+                sh 'cd dj-rick && git pull'
+                echo 'Building dj-rick'
+                sh 'cd dj-rick && docker build -t dj-rick .'
+            }
+        }
+        stage('Deploy'){
+            steps{
+                echo 'Deploying'
+                sh 'docker run --name dj-rick -e TOKEN=$EXAMPLE_KEY -d dj-rick '
+            }
+        }
+    }
+}
