@@ -18,4 +18,5 @@
   },
   "include": ["./", "./config.json", "./locales/*.json", "./sounds/*.mp3"],
   "exclude": ["/.github", "./dist", "./node_modules"]
+  
 }
