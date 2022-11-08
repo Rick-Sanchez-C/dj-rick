@@ -11,6 +11,8 @@ RUN apt-get update && \
 RUN groupadd -r ${USER} && \
 	useradd --create-home --home /home/evobot -r -g ${USER} ${USER}
 
+
+
 # set up volume and user
 USER ${USER}
 WORKDIR /home/evobot
